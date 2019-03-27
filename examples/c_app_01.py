@@ -56,8 +56,11 @@ class App(client.Client):
             data = ujson.loads(line)
             # Receives [restart count, uptime in secs]
             print('Got', data, 'from server app')
-            uart.write(data)
-            print('Sent to Nabaztag...')
+            if (0 < data[0] <5):
+                dataStr=('L'+str(data[0])+','+str(data[1])+','+str(data[2])+','+str(data[3]))
+                uart.write(dataStr)
+                print('LEDinfo Sent to Nabaztag...')
+            
 
     # Send [approx application uptime in secs, (re)connect count]
     async def writer(self):

@@ -30,7 +30,7 @@ class App:
     def __init__(self, loop, client_id):
         self.client_id = client_id  # This instance talks to this client
         self.conn = None  # Connection instance
-        self.data = ['L2',0, 0, 0]  # Exchange a 4-list with remote - L2 to start
+        self.data = [0 ,0, 0, 0]  # Exchange a 4-list with remote -
         self.data1 = [0, 0, 0] # To receive 3-list from client 
         loop.create_task(self.start(loop))
 
@@ -54,9 +54,10 @@ class App:
         print('Started writer')
         while True:
             # Random led light data
-            self.data[1] = random.randint(0,255)
-            self.data[2] = random.randint(0,255)
-            self.data[3] = random.randint(0,255)
+            self.data[0] = random.randint(0,4)      # random LED number
+            self.data[1] = random.randint(0,255)    # random R-value
+            self.data[2] = random.randint(0,255)    # random B-value
+            self.data[3] = random.randint(0,255)    # random G-value
             print('Sent', self.data, 'to remote', self.client_id, '\n')
             # .write() behaves as per .readline()
             await self.conn.write(json.dumps(self.data))
